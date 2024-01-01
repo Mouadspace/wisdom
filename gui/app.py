@@ -17,7 +17,7 @@ class App(customtkinter.CTk):
     self._set_appearance_mode("light")
     self.title(title)
     self.geometry(f"{size[0]}x{size[1]}")
-    # self.minsize(size[0],size[1])
+    self.minsize(size[0],size[1])
   
   def create_layout(self):
     self.columnconfigure(0,weight=2,uniform="a")
@@ -50,7 +50,6 @@ class Chat(customtkinter.CTkFrame):
     
 
   def create_frames(self):
-    print("create frames")
     self.header    = customtkinter.CTkFrame(master=self,corner_radius=0,fg_color="#f4f5f9")
 
     text_data = []
@@ -174,12 +173,11 @@ class ListFrame(customtkinter.CTkFrame):
                               width=self.winfo_width()
                               ,height=self.list_height)
 
-    print(self.list_height)    
 
   def update(self,message):
     self.canvas.destroy()
     self.list_data.append(message) 
-    item_height = 60 
+    item_height = 120 
     self.init(self.list_data,item_height)
     if self.list_height >= self.winfo_height():
       self.canvas.bind_all('<Button-4>', lambda event: self.canvas.yview_scroll(-int(30),"units"))
@@ -201,6 +199,15 @@ class ListFrame(customtkinter.CTkFrame):
                                           
                                           )
     message_label.grid(row=index,column=1,columnspan=2,sticky="e",ipadx=8,ipady=4,padx=5,pady=5)
+    answer_label = customtkinter.CTkLabel(master=frame,
+                                          text=item+' answer',
+                                          fg_color="#ffffff",
+                                          text_color="#212121",
+                                          font=("Arial",12),
+                                          corner_radius=12
+                                          
+                                          )
+    answer_label.grid(row=index+1,column=0,columnspan=2,sticky="w",ipadx=4,ipady=4,padx=10,pady=0)
 
     return frame;
 
