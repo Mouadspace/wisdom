@@ -551,7 +551,8 @@ def check_sentence(sentence):
     return lexResult
 
 # Example usage
-def compilation(user_input):
+def compilation():
+    user_input = input("Enter a sentence: ").lower()
     try:
         lexResult = check_sentence(user_input)
     except:
@@ -584,5 +585,7 @@ def compilation(user_input):
     print("\n--------------------------------------\n")
     return result
 
+while True:
+    compilation()
 
 

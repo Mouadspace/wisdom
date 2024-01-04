@@ -43,7 +43,7 @@ proverbs_dict = {
         ["kon", "kan", "lkhoukh", "yedawi", "kon", "dawa", "rasso"],
         ["lfya9", "bekri", "b","dheb", "macheri"], # noun adjective preposition noun adjective
         ["lkelb", "li", "kaynbh", "ga3", "makay", "3ad"], # noun conjunction verb contrudiction conjunction verb
-        ["ma3raftch masm3et had lmatale !!"] ,
+        [] ,
         ["de9a", "de9a", "yahml", "lwad"] # noun noun verb noun 
     ],
     "Espaniol": [

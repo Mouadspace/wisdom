@@ -9,7 +9,7 @@ import copy
 class App(customtkinter.CTk):
   def __init__(self,title,size):
     super().__init__()
-    
+    self.configure(fg_color="#ffffff")
     self.init_setup(title,size)
     self.create_layout()
     
@@ -33,12 +33,63 @@ class App(customtkinter.CTk):
   def run(self):
     self.mainloop()
 
+class PersonaChat(customtkinter.CTkFrame):
+  def __init__(self,master,path,text,name):
+    super().__init__(master=master,fg_color="#ffffff",corner_radius = 0)
+    frame = customtkinter.CTkFrame(master=self,fg_color="#F4F5F9")
+    frame1 = customtkinter.CTkFrame(master=frame,fg_color="#F4F5F9")
+    img_label = customtkinter.CTkLabel(master=frame,text="",image=path)
+    name_label = customtkinter.CTkLabel(master=frame1,text=name,                                        
+                                          text_color="#212121",
+                                          height=20,
+                                          
+                                          font=("Arial",14,'bold'))
+    text_label = customtkinter.CTkLabel(master=frame1,text=text,text_color="#868E96",
+                                          height=20,
+                                          font=("Arial",12))
+    img_label.pack(side="left",padx=10)
+    frame1.pack(side="top",expand=True,fill="x"),
+    name_label.grid(row=0,column=0,sticky="w")
+    text_label.grid(row=1,column=0,sticky="w")
+    frame.pack(fill='x',padx=15,ipady=5,pady=5)
+
+    self.pack(fill="x")
 
 class ChatList(customtkinter.CTkFrame):
   def __init__(self,master):
     super().__init__(master=master,fg_color="#ffffff",corner_radius = 0)
+    self.load_imgs()
 
-    self.grid(row=0,column=0,sticky="nsew")
+   
+    PersonaChat(self,path=self.us_persona_img,text="your proverb is correct",name="Simon")
+    PersonaChat(self,path=self.ma_persona_img,text="Lmatal s7i7",name="Mohammed")
+    PersonaChat(self,path=self.sp_persona_img,text="El proverbio es cierto.",name="Andriana 🇪🇸")
+    PersonaChat(self,path=self.fr_persona_img,text="le proverbe est correct",name="Raphaël 🇫🇷")
+
+    self.grid(row=0,column=0,sticky="nsew",pady=100)
+
+  def load_imgs(self):
+    self.us_persona_img = customtkinter.CTkImage(
+                                  light_image=Image.open("imgs/us_persona_img.png"),
+                                  dark_image=Image.open("imgs/us_persona_img.png"),
+                                  size=(45, 45)
+                                  )
+    self.ma_persona_img = customtkinter.CTkImage(
+                                  light_image=Image.open("imgs/ma_persona_img.png"),
+                                  dark_image=Image.open("imgs/ma_persona_img.png"),
+                                  size=(45, 45)
+                                  )
+    self.sp_persona_img = customtkinter.CTkImage(
+                                  light_image=Image.open("imgs/sp_persona_img.png"),
+                                  dark_image=Image.open("imgs/sp_persona_img.png"),
+                                  size=(45, 45)
+                                  )
+    self.fr_persona_img = customtkinter.CTkImage(
+                                  light_image=Image.open("imgs/fr_persona_img.png"),
+                                  dark_image=Image.open("imgs/fr_persona_img.png"),
+                                  size=(45, 45)
+                                  )
+    
     
 class Chat(customtkinter.CTkFrame):
   def __init__(self,master):
@@ -134,7 +185,7 @@ class Chat(customtkinter.CTkFrame):
     if(result['situation'] == False):
       result['item_height'] = 120;
     else:
-      result['item_height'] = 300;
+      result['item_height'] = 400;
 
     self.main.update(result)
     print("result = ",result)
@@ -222,7 +273,9 @@ class ListFrame(customtkinter.CTkFrame):
     self.canvas.yview_moveto( 1 )
     
   def create_item(self,index,item):
+    print("item crated")
     is_correct = item['situation']
+    print("is_correct = ",is_correct)
 
 
 
@@ -242,7 +295,7 @@ class ListFrame(customtkinter.CTkFrame):
     message_label.grid(row=index,column=1,columnspan=2,sticky="e",ipadx=8,ipady=4,padx=5,pady=5)   
 
     if 'origin' in item:
-      language = item['origin']['langage'] or 'English' 
+      language = item['origin']['langage']
       self.showAnswerGUI(frame,is_correct,index,item,language)
     
 
@@ -250,6 +303,8 @@ class ListFrame(customtkinter.CTkFrame):
     return frame;
 
   def showAnswerGUI(self,frame,is_correct,index,item,language):
+    print(f"--- {language} ---")
+    print("codition = ",language == "Français")
     if(language == 'English'):
       label1 = "the proverb is correct" if is_correct else "did you mean this : " + item['origin']['correct_proverb'] 
       american_persona = customtkinter.CTkFrame(master=frame,fg_color="#ffffff",corner_radius=12)
@@ -520,6 +575,112 @@ class ListFrame(customtkinter.CTkFrame):
 
         english_persona  = customtkinter.CTkFrame(master=frame,fg_color="#ffffff",corner_radius=12)
         customtkinter.CTkLabel(master=english_persona ,
+                                            text="Simon" ,
+                                            fg_color="#ffffff",
+                                            text_color="red",
+                                            font=("Arial",10),
+                                            corner_radius=12,
+                                            height=8,                                    
+                                            ).grid(row=0,column=0,sticky="nw",ipadx=8,ipady=4)
+        customtkinter.CTkLabel(master=english_persona ,
+                                            text=equi_english ,
+                                            fg_color="#ffffff",
+                                            text_color="#212121",
+                                            font=("Arial",12),
+                                            corner_radius=12,
+                                            height=16                  
+                                            ).grid(row=1,column=0,sticky="w",ipadx=4)
+        english_persona.grid(row=index+4,column=0,columnspan=2,sticky="w",ipadx=4,ipady=4,padx=10,pady=5)
+        italiano_persona = customtkinter.CTkFrame(master=frame,fg_color="#ffffff",corner_radius=12)
+        customtkinter.CTkLabel(master=italiano_persona,
+                                            text="Alessandro" ,
+                                            fg_color="#ffffff",
+                                            text_color="pink",
+                                            font=("Arial",10),
+                                            corner_radius=12,
+                                            height=8,                                    
+                                            ).grid(row=0,column=0,sticky="nw",ipadx=8,ipady=4)
+        customtkinter.CTkLabel(master=italiano_persona,
+                                            text=equi_italiano ,
+                                            fg_color="#ffffff",
+                                            text_color="#212121",
+                                            font=("Arial",12),
+                                            corner_radius=12,
+                                            height=16                  
+                                            ).grid(row=1,column=0,sticky="w",ipadx=4)
+        italiano_persona .grid(row=index+5,column=0,columnspan=2,sticky="w",ipadx=4,ipady=4,padx=10,pady=5)
+
+    elif(language == "Français"):
+      print("francais elif block")
+      label1 = "Le proverb est correct." if is_correct else "vouliez-vous dire : " + item['origin']['correct_proverb'] 
+      frensh_persona = customtkinter.CTkFrame(master=frame,fg_color="#ffffff",corner_radius=12)
+      customtkinter.CTkLabel(master=frensh_persona,
+                                            text="Raphaël 🇫🇷" ,
+                                            fg_color="#ffffff",
+                                            text_color="blue",
+                                            font=("Arial",10),
+                                            corner_radius=12,
+                                            height=8,                                    
+                                            ).grid(row=0,column=0,sticky="nw",ipadx=8,ipady=4)
+      customtkinter.CTkLabel(master=frensh_persona,
+                                            text=label1 ,
+                                            fg_color="#ffffff",
+                                            text_color="#212121",
+                                            font=("Arial",12),
+                                            corner_radius=12,
+                                            height=16                  
+                                            ).grid(row=1,column=0,sticky="w",ipadx=4)
+      frensh_persona .grid(row=index+1,column=0,columnspan=2,sticky="w",ipadx=4,ipady=4,padx=10,pady=5)
+
+
+      
+
+      if(is_correct):
+        equi_espaniol = item['equivalents']['Espaniol']
+        equi_darija = item['equivalents']['Darija']
+        equi_english = item['equivalents']['English']
+        equi_italiano = item['equivalents']['Italiano']
+        
+        espaniol_persona = customtkinter.CTkFrame(master=frame,fg_color="#ffffff",corner_radius=12)
+        customtkinter.CTkLabel(master=espaniol_persona,
+                                            text="Andriana 🇪🇸" ,
+                                            fg_color="#ffffff",
+                                            text_color="green",
+                                            font=("Arial",10),
+                                            corner_radius=12,
+                                            height=8,                                    
+                                            ).grid(row=0,column=0,sticky="nw",ipadx=8,ipady=4)
+        customtkinter.CTkLabel(master=espaniol_persona,
+                                            text=equi_espaniol ,
+                                            fg_color="#ffffff",
+                                            text_color="#212121",
+                                            font=("Arial",12),
+                                            corner_radius=12,
+                                            height=16                  
+                                            ).grid(row=1,column=0,sticky="w",ipadx=4)
+        espaniol_persona .grid(row=index+2,column=0,columnspan=2,sticky="w",ipadx=4,ipady=4,padx=10,pady=5)
+
+        darija_persona = customtkinter.CTkFrame(master=frame,fg_color="#ffffff",corner_radius=12)
+        customtkinter.CTkLabel(master=darija_persona,
+                                            text="Mohammed " ,
+                                            fg_color="#ffffff",
+                                            text_color="orange",
+                                            font=("Arial",10),
+                                            corner_radius=12,
+                                            height=8,                                    
+                                            ).grid(row=0,column=0,sticky="nw",ipadx=8,ipady=4)
+        customtkinter.CTkLabel(master=darija_persona,
+                                            text=equi_darija ,
+                                            fg_color="#ffffff",
+                                            text_color="#212121",
+                                            font=("Arial",12),
+                                            corner_radius=12,
+                                            height=16                  
+                                            ).grid(row=1,column=0,sticky="w",ipadx=4)
+        darija_persona .grid(row=index+3,column=0,columnspan=2,sticky="w",ipadx=4,ipady=4,padx=10,pady=5)
+
+        english_persona  = customtkinter.CTkFrame(master=frame,fg_color="#ffffff",corner_radius=12)
+        customtkinter.CTkLabel(master=english_persona ,
                                             text="Andriana 🇪🇸" ,
                                             fg_color="#ffffff",
                                             text_color="green",
@@ -554,6 +715,112 @@ class ListFrame(customtkinter.CTkFrame):
                                             height=16                  
                                             ).grid(row=1,column=0,sticky="w",ipadx=4)
         italiano_persona .grid(row=index+5,column=0,columnspan=2,sticky="w",ipadx=4,ipady=4,padx=10,pady=5)
+    elif(language == "Italiano"):
+          label1 = "Il proverbio è corretto." if is_correct else "intendevi :" + item['origin']['correct_proverb'] 
+          italiano_persona = customtkinter.CTkFrame(master=frame,fg_color="#ffffff",corner_radius=12)
+          customtkinter.CTkLabel(master=italiano_persona,
+                                              text="Alessandro" ,
+                                              fg_color="#ffffff",
+                                              text_color="pink",
+                                              font=("Arial",10),
+                                              corner_radius=12,
+                                              height=8,                                    
+                                              ).grid(row=0,column=0,sticky="nw",ipadx=8,ipady=4)
+          customtkinter.CTkLabel(master=italiano_persona,
+                                              text=label1 ,
+                                              fg_color="#ffffff",
+                                              text_color="#212121",
+                                              font=("Arial",12),
+                                              corner_radius=12,
+                                              height=16                  
+                                              ).grid(row=1,column=0,sticky="w",ipadx=4)
+          italiano_persona .grid(row=index+1,column=0,columnspan=2,sticky="w",ipadx=4,ipady=4,padx=10,pady=5)
+
+
+          
+
+          if(is_correct):
+            equi_espaniol = item['equivalents']['Espaniol']
+            equi_darija = item['equivalents']['Darija']
+            equi_english = item['equivalents']['English']
+            equi_frensh = item['equivalents']['Français']
+
+            frensh_persona = customtkinter.CTkFrame(master=frame,fg_color="#ffffff",corner_radius=12)
+            customtkinter.CTkLabel(master=frensh_persona,
+                                                  text="Raphaël 🇫🇷" ,
+                                                  fg_color="#ffffff",
+                                                  text_color="blue",
+                                                  font=("Arial",10),
+                                                  corner_radius=12,
+                                                  height=8,                                    
+                                                  ).grid(row=0,column=0,sticky="nw",ipadx=8,ipady=4)
+            customtkinter.CTkLabel(master=frensh_persona,
+                                                  text=equi_frensh ,
+                                                  fg_color="#ffffff",
+                                                  text_color="#212121",
+                                                  font=("Arial",12),
+                                                  corner_radius=12,
+                                                  height=16                  
+                                                  ).grid(row=1,column=0,sticky="w",ipadx=4)
+            frensh_persona .grid(row=index+2,column=0,columnspan=2,sticky="w",ipadx=4,ipady=4,padx=10,pady=5)
+              
+            espaniol_persona = customtkinter.CTkFrame(master=frame,fg_color="#ffffff",corner_radius=12)
+            customtkinter.CTkLabel(master=espaniol_persona,
+                                                text="Andriana 🇪🇸" ,
+                                                fg_color="#ffffff",
+                                                text_color="green",
+                                                font=("Arial",10),
+                                                corner_radius=12,
+                                                height=8,                                    
+                                                ).grid(row=0,column=0,sticky="nw",ipadx=8,ipady=4)
+            customtkinter.CTkLabel(master=espaniol_persona,
+                                                text=equi_espaniol ,
+                                                fg_color="#ffffff",
+                                                text_color="#212121",
+                                                font=("Arial",12),
+                                                corner_radius=12,
+                                                height=16                  
+                                                ).grid(row=1,column=0,sticky="w",ipadx=4)
+            espaniol_persona .grid(row=index+3,column=0,columnspan=2,sticky="w",ipadx=4,ipady=4,padx=10,pady=5)
+
+            darija_persona = customtkinter.CTkFrame(master=frame,fg_color="#ffffff",corner_radius=12)
+            customtkinter.CTkLabel(master=darija_persona,
+                                                text="Mohammed " ,
+                                                fg_color="#ffffff",
+                                                text_color="orange",
+                                                font=("Arial",10),
+                                                corner_radius=12,
+                                                height=8,                                    
+                                                ).grid(row=0,column=0,sticky="nw",ipadx=8,ipady=4)
+            customtkinter.CTkLabel(master=darija_persona,
+                                                text=equi_darija ,
+                                                fg_color="#ffffff",
+                                                text_color="#212121",
+                                                font=("Arial",12),
+                                                corner_radius=12,
+                                                height=16                  
+                                                ).grid(row=1,column=0,sticky="w",ipadx=4)
+            darija_persona .grid(row=index+4,column=0,columnspan=2,sticky="w",ipadx=4,ipady=4,padx=10,pady=5)
+
+            english_persona  = customtkinter.CTkFrame(master=frame,fg_color="#ffffff",corner_radius=12)
+            customtkinter.CTkLabel(master=english_persona ,
+                                                text="Andriana 🇪🇸" ,
+                                                fg_color="#ffffff",
+                                                text_color="green",
+                                                font=("Arial",10),
+                                                corner_radius=12,
+                                                height=8,                                    
+                                                ).grid(row=0,column=0,sticky="nw",ipadx=8,ipady=4)
+            customtkinter.CTkLabel(master=english_persona ,
+                                                text=equi_english ,
+                                                fg_color="#ffffff",
+                                                text_color="#212121",
+                                                font=("Arial",12),
+                                                corner_radius=12,
+                                                height=16                  
+                                                ).grid(row=1,column=0,sticky="w",ipadx=4)
+            english_persona.grid(row=index+5,column=0,columnspan=2,sticky="w",ipadx=4,ipady=4,padx=10,pady=5)
+            
 
 
 class Divider(customtkinter.CTkFrame):
